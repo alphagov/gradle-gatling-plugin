@@ -3,11 +3,16 @@
 Add the following to your project's `build.gradle`:
 
 	apply plugin: 'gatling'
+	buildscript {
+		dependencies {
+			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'0.1-SNAPSHOT'
+		}
+		repositories {
+			mavenLocal()
+		}
+	}
 	repositories {
 		mavenCentral()
-		maven {
-			url 'http://repository.excilys.com/content/groups/public'
-		}
 	}
 
 # Use
