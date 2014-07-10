@@ -11,9 +11,6 @@ Add the following to your project's `build.gradle`:
 			mavenLocal()
 		}
 	}
-	repositories {
-		mavenCentral()
-	}
 
 # Use
 
