@@ -10,6 +10,7 @@ class GatlingPlugin implements Plugin<Project> {
 	void apply(Project project) {
 		this.project = project
 		project.plugins.apply 'scala'
+		project.extensions.create('gatling', GatlingPluginExtension)
 		project.dependencies {
 			testCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.0.0-M3a',
 					'com.nimbusds:nimbus-jose-jwt:2.22.1'
@@ -20,19 +21,14 @@ class GatlingPlugin implements Plugin<Project> {
 			}
 		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
-		project.task('gatling',
+		project.task('gatlingTest',
 				dependsOn:'build') << {
+			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
-			final String scenarioSrcDir = "$project.projectDir.absolutePath/src/$sourceSet.name/scala"
-			final int scenarioPathPrefix = "$scenarioSrcDir/".size()
-			final int scenarioPathSuffix = - ('.scala'.size() + 1)
-			final List scenarios = sourceSet.allScala.files*.toString().
-					findAll { it.endsWith 'Scenario.scala' }.
-					collect { it[scenarioPathPrefix..scenarioPathSuffix] }*.
-					replace('/', '.')
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
+			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
-			scenarios.each { scenario ->
+			scenarios?.each { scenario ->
 				project.javaexec {
 					main = 'io.gatling.app.Gatling'
 					classpath = gatlingClasspath
@@ -54,6 +50,16 @@ class GatlingPlugin implements Plugin<Project> {
 		project.task('openGatlingReports') << {
 			withGatlingReportsDirs openReport
 		}
+	}
+
+	private getGatlingScenarios(sourceSet) {
+		final String scenarioSrcDir = "$project.projectDir.absolutePath/src/$sourceSet.name/scala"
+		final int scenarioPathPrefix = "$scenarioSrcDir/".size()
+		final int scenarioPathSuffix = - ('.scala'.size() + 1)
+		sourceSet.allScala.files*.toString().
+				findAll { it.endsWith 'Scenario.scala' }.
+				collect { it[scenarioPathPrefix..scenarioPathSuffix] }*.
+				replace('/', '.')
 	}
 
 	private openReport = { reportDir ->
