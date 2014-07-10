@@ -1,1 +1,11 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group = 'uk.gov'
+version = '0.1-SNAPSHOT'
+
+repositories.mavenCentral()
+dependencies {
+	compile gradleApi()
+}
 
