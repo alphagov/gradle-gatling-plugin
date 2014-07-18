@@ -3,6 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'uk.gov'
+name = 'gradle-gatling-plugin'
 version = '0.1-SNAPSHOT'
 
 repositories.mavenCentral()
