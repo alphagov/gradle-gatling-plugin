@@ -67,7 +67,7 @@ class GatlingPlugin implements Plugin<Project> {
 	}
 
 	private withGatlingReportsDirs(Closure c) {
-		new File(gatlingReportsDirectory).eachDirMatch(~/^perftest-.*/, c)
+		new File(gatlingReportsDirectory).eachDirMatch(~/^-\d+/, c)
 	}
 }
 
