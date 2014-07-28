@@ -23,3 +23,5 @@ publishing {
 	}
 }
 
+defaultTasks 'clean', 'publishToMavenLocal'
+
