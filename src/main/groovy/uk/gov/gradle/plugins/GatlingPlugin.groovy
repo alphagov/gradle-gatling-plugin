@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.0.0-M3a'
+	final String GATLING_VERSION = '2.0.0-SNAPSHOT'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -15,12 +15,12 @@ class GatlingPlugin implements Plugin<Project> {
 		project.extensions.create('gatling', GatlingPluginExtension)
 		project.dependencies {
 			testCompile "io.gatling.highcharts:gatling-charts-highcharts:${GATLING_VERSION}",
-					"io.gatling:gatling-recorder:${GATLING_VERSION}"
 					'com.nimbusds:nimbus-jose-jwt:2.22.1'
 		}
 		project.repositories {
 			maven {
 				url 'http://repository.excilys.com/content/groups/public'
+				url 'https://oss.sonatype.org/content/repositories/snapshots'
 			}
 		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
@@ -35,6 +35,10 @@ class GatlingPlugin implements Plugin<Project> {
 				project.javaexec {
 					main = 'io.gatling.app.Gatling'
 					classpath = gatlingClasspath
+					if(project.gatling.verbose) jvmArgs '-verbose'
+					// If a user has the GATLING_HOME env var set, gradle will try to compile
+					// simulations which are saved in GATLING_HOME.  This can break the build.
+					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
 							'-s', scenario
 				}

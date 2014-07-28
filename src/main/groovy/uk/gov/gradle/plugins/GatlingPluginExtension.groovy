@@ -3,6 +3,7 @@ package uk.gov.gradle.plugins
 class GatlingPluginExtension {
 	String scenario
 	List scenarios
+	boolean verbose
 
 	protected List get_scenarios() {
 		scenarios?: scenario? [scenario]: null
