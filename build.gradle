@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'uk.gov'
-version = '0.2'
+version = '0.3-SNAPSHOT'
 
 repositories.mavenCentral()
 dependencies {
