@@ -28,6 +28,7 @@ class GatlingPlugin implements Plugin<Project> {
 				dependsOn:'build') << {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
+			gatlingRequestBodiesDirectory = "$project.projectDir.absolutePath/src/$sourceSet.name/resources/request-bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
@@ -40,7 +41,8 @@ class GatlingPlugin implements Plugin<Project> {
 					// simulations which are saved in GATLING_HOME.  This can break the build.
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
-							'-s', scenario
+							'-s', scenario,
+							'-bf', gatlingRequestBodiesDirectory
 				}
 			}
 			logger.lifecycle "Gatling scenarios completed."
