@@ -28,7 +28,7 @@ class GatlingPlugin implements Plugin<Project> {
 				dependsOn:'build') << {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
-			final def gatlingRequestBodiesDirectory = "$project.projectDir.absolutePath/src/$sourceSet.name/resources/request-bodies"
+			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/request-bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
@@ -69,6 +69,10 @@ class GatlingPlugin implements Plugin<Project> {
 				findAll { it.endsWith 'Scenario.scala' }.
 				collect { it[scenarioPathPrefix..scenarioPathSuffix] }*.
 				replace('/', '.')
+	}
+
+	private firstPath(Set<File> files) {
+		return files.toList().first().toString()
 	}
 
 	private openReport = { reportDir ->
