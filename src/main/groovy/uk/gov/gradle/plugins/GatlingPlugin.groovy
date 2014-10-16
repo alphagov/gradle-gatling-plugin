@@ -28,6 +28,7 @@ class GatlingPlugin implements Plugin<Project> {
 				dependsOn:'build') << {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
+			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/request-bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
@@ -40,7 +41,8 @@ class GatlingPlugin implements Plugin<Project> {
 					// simulations which are saved in GATLING_HOME.  This can break the build.
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
-							'-s', scenario
+							'-s', scenario,
+							'-bf', gatlingRequestBodiesDirectory
 				}
 			}
 			logger.lifecycle "Gatling scenarios completed."
@@ -67,6 +69,10 @@ class GatlingPlugin implements Plugin<Project> {
 				findAll { it.endsWith 'Scenario.scala' }.
 				collect { it[scenarioPathPrefix..scenarioPathSuffix] }*.
 				replace('/', '.')
+	}
+
+	private firstPath(Set<File> files) {
+		return files.toList().first().toString()
 	}
 
 	private openReport = { reportDir ->
