@@ -28,7 +28,7 @@ class GatlingPlugin implements Plugin<Project> {
 				dependsOn:'build') << {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
-			gatlingRequestBodiesDirectory = "$project.projectDir.absolutePath/src/$sourceSet.name/resources/request-bodies"
+			final def gatlingRequestBodiesDirectory = "$project.projectDir.absolutePath/src/$sourceSet.name/resources/request-bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
