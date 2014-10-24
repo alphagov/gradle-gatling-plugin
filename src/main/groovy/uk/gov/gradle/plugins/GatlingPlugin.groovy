@@ -42,7 +42,7 @@ class GatlingPlugin implements Plugin<Project> {
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
 							'-s', scenario,
-							'-bf', gatlingRequestBodiesDirectory
+							'-rbf', gatlingRequestBodiesDirectory
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
