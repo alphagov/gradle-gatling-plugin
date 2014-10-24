@@ -5,6 +5,9 @@ class GatlingPluginExtension {
 	List scenarios
 	boolean verbose
 
+	//allows users to set SystemProperties for the spawned gatling exec tasks
+	Map systemProperties
+
 	protected List get_scenarios() {
 		scenarios?: scenario? [scenario]: null
 	}

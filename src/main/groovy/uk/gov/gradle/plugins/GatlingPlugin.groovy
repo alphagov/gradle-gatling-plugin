@@ -43,6 +43,7 @@ class GatlingPlugin implements Plugin<Project> {
 					args '-rf', gatlingReportsDirectory,
 							'-s', scenario,
 							'-bf', gatlingRequestBodiesDirectory
+					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
 			logger.lifecycle "Gatling scenarios completed."
