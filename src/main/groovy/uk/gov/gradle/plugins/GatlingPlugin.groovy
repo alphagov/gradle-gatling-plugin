@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.0.1'
+	final String GATLING_VERSION = '2.0.2'
 
 	private String gatlingReportsDirectory
 	private Project project
