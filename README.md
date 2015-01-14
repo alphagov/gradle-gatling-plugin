@@ -18,7 +18,7 @@ Put [gatling][1] scenarios in `src/test/scala` and make sure the class name ends
 
 # Tasks
 
-## gatling
+## gatlingTest
 
 This will run all Scenarios provided in `src/test/scala`.
 
