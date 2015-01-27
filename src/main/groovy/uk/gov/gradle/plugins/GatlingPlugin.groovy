@@ -67,7 +67,7 @@ class GatlingPlugin implements Plugin<Project> {
 		final String scenarioSrcDir = "$project.projectDir.absolutePath/src/$sourceSet.name/scala"
 		final int scenarioPathPrefix = "$scenarioSrcDir/".size()
 		final int scenarioPathSuffix = - ('.scala'.size() + 1)
-		println scenarioSrcDir		sourceSet.allScala.files*.toString().
+		sourceSet.allScala.files*.toString().
 				findAll { it.endsWith 'Scenario.scala' }.
 				collect { it[scenarioPathPrefix..scenarioPathSuffix] }*.
 				replace('/', '.')
