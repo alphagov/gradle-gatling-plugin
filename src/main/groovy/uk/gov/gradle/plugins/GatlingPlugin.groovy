@@ -42,8 +42,8 @@ class GatlingPlugin implements Plugin<Project> {
 					// simulations which are saved in GATLING_HOME.  This can break the build.
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
-						 '-s', scenario,
-						 '-bdf', gatlingRequestBodiesDirectory
+							'-s', scenario,
+							'-bdf', gatlingRequestBodiesDirectory
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
