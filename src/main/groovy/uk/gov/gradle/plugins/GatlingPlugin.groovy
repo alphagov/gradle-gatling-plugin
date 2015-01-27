@@ -31,7 +31,7 @@ class GatlingPlugin implements Plugin<Project> {
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
-			
+
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
 			scenarios?.each { scenario ->
 				project.javaexec {
