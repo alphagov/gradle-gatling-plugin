@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.1.2'
+	final String GATLING_VERSION = '2.1.3'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -31,6 +31,7 @@ class GatlingPlugin implements Plugin<Project> {
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
+			
 			logger.lifecycle "Executing gatling scenarios: $scenarios"
 			scenarios?.each { scenario ->
 				project.javaexec {
@@ -41,8 +42,8 @@ class GatlingPlugin implements Plugin<Project> {
 					// simulations which are saved in GATLING_HOME.  This can break the build.
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
-							'-s', scenario,
-							'-rbf', gatlingRequestBodiesDirectory
+						 '-s', scenario,
+						 '-bdf', gatlingRequestBodiesDirectory
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
