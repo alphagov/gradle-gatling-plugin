@@ -5,7 +5,7 @@ Add the following to your project's `build.gradle`:
 	apply plugin: 'gatling'
 	buildscript {
 		dependencies {
-			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'0.4'
+			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'1.1'
 		}
 		repositories {
 			mavenLocal()
