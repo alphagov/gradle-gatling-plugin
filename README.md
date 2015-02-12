@@ -1,11 +1,13 @@
 # Setup
 
+Build the plugin with `./gradlew`, this by default places an artifact in mavenLocal.
+
 Add the following to your project's `build.gradle`:
 
 	apply plugin: 'gatling'
 	buildscript {
 		dependencies {
-			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'1.1'
+			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'1.2-SNAPSHOT'
 		}
 		repositories {
 			mavenLocal()
