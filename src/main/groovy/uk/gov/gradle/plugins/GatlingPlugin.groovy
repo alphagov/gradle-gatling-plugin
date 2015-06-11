@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.1.3'
+	final String GATLING_VERSION = '2.1.6'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -20,6 +20,12 @@ class GatlingPlugin implements Plugin<Project> {
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
 				dependsOn:'build') << {
+			def targetTestClassesFolder = new File (System.getProperty("user.dir"), 'target/test-classes')
+			def fakeFolderHack = !targetTestClassesFolder.exists()
+			if (fakeFolderHack) {
+				//needed since gatling fails if missing
+				targetTestClasses.mkdirs()
+			}
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
@@ -41,6 +47,11 @@ class GatlingPlugin implements Plugin<Project> {
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
+			if (fakeFolderHack) {
+				//removes empty directory
+				targetTestClasses.delete()
+			}
+
 			logger.lifecycle "Gatling scenarios completed."
 		}
 		project.task('openGatlingReport') << {
