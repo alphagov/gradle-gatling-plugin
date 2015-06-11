@@ -17,12 +17,6 @@ class GatlingPlugin implements Plugin<Project> {
 			testCompile "io.gatling.highcharts:gatling-charts-highcharts:${GATLING_VERSION}",
 					'com.nimbusds:nimbus-jose-jwt:2.22.1'
 		}
-		project.repositories {
-			maven {
-				url 'http://repository.excilys.com/content/groups/public'
-				url 'https://oss.sonatype.org/content/repositories/snapshots'
-			}
-		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
 				dependsOn:'build') << {
