@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.1.3'
+	final String GATLING_VERSION = '2.1.6'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -17,15 +17,15 @@ class GatlingPlugin implements Plugin<Project> {
 			testCompile "io.gatling.highcharts:gatling-charts-highcharts:${GATLING_VERSION}",
 					'com.nimbusds:nimbus-jose-jwt:2.22.1'
 		}
-		project.repositories {
-			maven {
-				url 'http://repository.excilys.com/content/groups/public'
-				url 'https://oss.sonatype.org/content/repositories/snapshots'
-			}
-		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
 				dependsOn:'build') << {
+			def targetTestClassesFolder = new File (System.getProperty("user.dir"), 'target/test-classes')
+			def fakeFolderHack = !targetTestClassesFolder.exists()
+			if (fakeFolderHack) {
+				//needed since gatling fails if missing
+				targetTestClassesFolder.mkdirs()
+			}
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
@@ -47,6 +47,11 @@ class GatlingPlugin implements Plugin<Project> {
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
+			if (fakeFolderHack) {
+				//removes empty directory
+				targetTestClassesFolder.delete()
+			}
+
 			logger.lifecycle "Gatling scenarios completed."
 		}
 		project.task('openGatlingReport') << {
