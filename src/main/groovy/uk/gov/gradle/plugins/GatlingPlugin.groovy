@@ -24,7 +24,7 @@ class GatlingPlugin implements Plugin<Project> {
 			def fakeFolderHack = !targetTestClassesFolder.exists()
 			if (fakeFolderHack) {
 				//needed since gatling fails if missing
-				targetTestClasses.mkdirs()
+				targetTestClassesFolder.mkdirs()
 			}
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
@@ -49,7 +49,7 @@ class GatlingPlugin implements Plugin<Project> {
 			}
 			if (fakeFolderHack) {
 				//removes empty directory
-				targetTestClasses.delete()
+				targetTestClassesFolder.delete()
 			}
 
 			logger.lifecycle "Gatling scenarios completed."
