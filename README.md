@@ -24,6 +24,14 @@ Put [gatling][1] scenarios in `src/test/scala` and make sure the class name ends
 
 This will run all Scenarios provided in `src/test/scala`.
 
+Alternatively you can specify the scenarios to run in your gradle file:
+
+````
+gatling {
+  scenarios = [ "package.MySimulation", ... ]
+}
+````
+
 ## openGatlingReport
 
 Opens the report for the most recently run gatling scenario.  If you have more than one scenario, use `openGatlingReports`.
