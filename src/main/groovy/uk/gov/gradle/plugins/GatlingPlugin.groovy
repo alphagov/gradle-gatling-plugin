@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.1.3'
+	final String GATLING_VERSION = '2.2.3'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -17,18 +17,13 @@ class GatlingPlugin implements Plugin<Project> {
 			testCompile "io.gatling.highcharts:gatling-charts-highcharts:${GATLING_VERSION}",
 					'com.nimbusds:nimbus-jose-jwt:2.22.1'
 		}
-		project.repositories {
-			maven {
-				url 'http://repository.excilys.com/content/groups/public'
-				url 'https://oss.sonatype.org/content/repositories/snapshots'
-			}
-		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
 				dependsOn:'build') << {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
+			final def gatlingTestClassDirectory = sourceSet.output.classesDir
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 
@@ -43,7 +38,8 @@ class GatlingPlugin implements Plugin<Project> {
 					environment GATLING_HOME:''
 					args '-rf', gatlingReportsDirectory,
 							'-s', scenario,
-							'-bdf', gatlingRequestBodiesDirectory
+							'-bdf', gatlingRequestBodiesDirectory,
+							'-bf', gatlingTestClassDirectory
 					systemProperties(project.gatling.systemProperties ?: [:])
 				}
 			}
