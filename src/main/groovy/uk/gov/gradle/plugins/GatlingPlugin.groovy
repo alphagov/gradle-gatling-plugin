@@ -19,7 +19,7 @@ class GatlingPlugin implements Plugin<Project> {
 		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
-				dependsOn:'build') << {
+				dependsOn:'build').doLast {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
@@ -45,7 +45,7 @@ class GatlingPlugin implements Plugin<Project> {
 			}
 			logger.lifecycle "Gatling scenarios completed."
 		}
-		project.task('openGatlingReport') << {
+		project.task('openGatlingReport').doLast {
 			def mostRecent
 			withGatlingReportsDirs { projectDir ->
 				if(projectDir > mostRecent) {
@@ -54,7 +54,7 @@ class GatlingPlugin implements Plugin<Project> {
 			}
 			openReport mostRecent
 		}
-		project.task('openGatlingReports') << {
+		project.task('openGatlingReports').doLast {
 			withGatlingReportsDirs openReport
 		}
 	}
