@@ -1,3 +1,10 @@
+<h1 align="center"> Gradle + Gatling Plugin </h1> <br>
+<p align="center">
+  <a href="https://barrelof.fun/">
+    <img alt="Gradle + Gatling" title="Gradle + Gatling" src="img/gradle-gatling.png" width="450">
+  </a>
+</p>
+
 # Setup
 
 Build the plugin with `./gradlew`, this by default places an artifact in mavenLocal.
@@ -7,7 +14,7 @@ Add the following to your project's `build.gradle`:
 	apply plugin: 'gatling'
 	buildscript {
 		dependencies {
-			classpath group:'uk.gov', name:'gradle-gatling-plugin', version:'1.2-SNAPSHOT'
+			classpath group:'com.github.cmhdave', name:'gradle-gatling-plugin', version:'1.3-SNAPSHOT'
 		}
 		repositories {
 			mavenLocal()
@@ -44,5 +51,5 @@ Opens all gatling reports in `build/gatling-reports`.
 
 	gradle install
 
-[1]: http://gatling-tool.org/
+[1]: https://gatling.io/
 

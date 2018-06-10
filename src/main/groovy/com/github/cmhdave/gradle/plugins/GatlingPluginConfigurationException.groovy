@@ -1,4 +1,4 @@
-package uk.gov.gradle.plugins
+package com.github.cmhdave.gradle.plugins
 
 class GatlingPluginConfigurationException extends Exception {
 }

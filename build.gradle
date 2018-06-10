@@ -1,26 +1,60 @@
+plugins {
+    id 'io.codearte.nexus-staging' version '0.11.0'
+    id "com.bmuschko.nexus" version "2.3.1"
+}
+group = 'com.github.cmhdave'
+version = '1.3-SNAPSHOT'
+
 apply plugin: 'groovy'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-group = 'uk.gov'
-version = '1.2-SNAPSHOT'
-
 repositories.mavenCentral()
 dependencies {
-	compile gradleApi()
+    compile gradleApi()
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Gatling Plugin',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion
+    }
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-	repositories {
-		maven {
-			url '/srv/maven'
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            pom {
+                name = "Gradle Gatling Plugin"
+                description = "Run gatling load test scenarios from a gradle build"
+                url = "https://github.com/cmhdave/gradle-gatling-plugin"
+                inceptionYear = '2018'
+                licenses {
+                    license {
+                        name = "The MIT License (MIT)"
+                        url = "https://github.com/cmhdave/gradle-gatling-plugin/blob/master/LICENSE.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "cmhdave"
+                        name = "Dave Collins"
+                        email = "collins.180@osu.edu"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/cmhdave/gradle-gatling-plugin.git"
+                    developerConnection = "scm:git:ssh://github.com:cmhdave/gradle-gatling-plugin.git"
+                    url = "https://github.com/cmhdave/gradle-gatling-plugin"
+                }
+            }
+        }
+    }
 }
 
 defaultTasks 'clean', 'publishToMavenLocal'
