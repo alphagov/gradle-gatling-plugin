@@ -3,6 +3,9 @@ package com.github.cmhdave.gradle.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * Main plugin class for Gatling implementation
+ */
 class GatlingPlugin implements Plugin<Project> {
     final static String GATLING_VERSION = '2.3.1'
 
