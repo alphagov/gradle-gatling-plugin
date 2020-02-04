@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'uk.gov'
-version = '1.2-SNAPSHOT'
+version = "1.3-${System.env.BUILD_NUMBER ?: 'SNAPSHOT'}"
 
 repositories.mavenCentral()
 dependencies {
