@@ -11,17 +11,21 @@ dependencies {
 }
 
 publishing {
+	repositories {
+		maven {
+			credentials {
+				username "${System.env.ARTIUSER}"
+				password "${System.env.ARTIPASSWORD}"
+			}
+			url "https://artifactory.ida.digital.cabinet-office.gov.uk/artifactory/plugins-release-local"
+		}
+	}
+
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
 		}
 	}
-	repositories {
-		maven {
-			url '/srv/maven'
-		}
-	}
 }
 
 defaultTasks 'clean', 'publishToMavenLocal'
-
