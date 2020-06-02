@@ -4,7 +4,6 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class GatlingPlugin implements Plugin<Project> {
-	final String GATLING_VERSION = '2.2.3'
 
 	private String gatlingReportsDirectory
 	private Project project
@@ -13,10 +12,6 @@ class GatlingPlugin implements Plugin<Project> {
 		this.project = project
 		project.plugins.apply 'scala'
 		project.extensions.create('gatling', GatlingPluginExtension)
-		project.dependencies {
-			testCompile "io.gatling.highcharts:gatling-charts-highcharts:${GATLING_VERSION}",
-					'com.nimbusds:nimbus-jose-jwt:2.22.1'
-		}
 		gatlingReportsDirectory = "$project.buildDir.absolutePath/gatling-reports"
 		project.task('gatlingTest',
 				dependsOn:'build').doLast {
