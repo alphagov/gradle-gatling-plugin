@@ -23,7 +23,7 @@ class GatlingPlugin implements Plugin<Project> {
 			project.gatling.verifySettings()
 			final def sourceSet = project.sourceSets.test
 			final def gatlingRequestBodiesDirectory = firstPath(sourceSet.resources.srcDirs) + "/bodies"
-			final def gatlingTestClassDirectory = sourceSet.output.classesDir
+			final def gatlingTestClassDirectory = sourceSet.output.classesDirs
 			final def gatlingClasspath = sourceSet.output + sourceSet.runtimeClasspath
 			final def scenarios = project.gatling._scenarios ?: getGatlingScenarios(sourceSet)
 
