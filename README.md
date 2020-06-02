@@ -14,6 +14,14 @@ Add the following to your project's `build.gradle`:
 		}
 	}
 
+You also need some dependencies in order for Gatling itself to be available to your project.  Update the version numbers as required:
+
+    dependencies {
+        testCompile 'io.gatling.highcharts:gatling-charts-highcharts:2.2.3'
+    }
+
+For further information on how to install Gatling please consult the Gatling [Installation](https://gatling.io/docs/current/installation/) documentation.
+
 # Use
 
 Put [gatling][1] scenarios in `src/test/scala` and make sure the class name ends with `Scenario`.
