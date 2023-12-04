@@ -1,3 +1,7 @@
+>**GOV.UK Verify has closed**
+>
+>This repository is out of date and has been archived
+
 # Setup
 
 Build the plugin with `./gradlew`, this by default places an artifact in mavenLocal.
